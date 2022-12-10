@@ -1,0 +1,24 @@
+{
+	"name": "react-time-picker-field",
+	"version": "1.0.0",
+	"main": "src/index.jsx",
+	"description": "Simple template based React Components",
+	"dependencies": {
+		"@types/lodash.clonedeep": "^4.5.7",
+		"@types/node": "^18.11.13",
+		"@types/react": "^18.0.26",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"keywords": [
+		"react",
+		"templates"
+	],
+	"type": "module",
+	"types": "src/index.d.ts",
+	"scripts": {
+		"build": "npx parcel build src/index.tsx --no-source-maps --experimental-scope-hoisting"
+	},
+	"author": "dindin-nibnib",
+	"license": "ISC"
+}
