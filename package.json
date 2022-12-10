@@ -2,7 +2,11 @@
 	"name": "react-time-picker-field",
 	"version": "1.0.0",
 	"main": "src/index.jsx",
-	"description": "Simple template based React Components",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dindin-nibnib/react-time-picker-field.git"
+	},
+	"description": "A user-pleasing, yet unstlyed react time picker based on vue datepicker",
 	"dependencies": {
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@types/node": "^18.11.13",
