@@ -1,0 +1,70 @@
+.rtpf__input {
+	margin-top: 100px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.rtpf__popout {
+	position: relative;
+	top: -75px;
+	left: 100px;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 100px;
+	display: none;
+}
+
+.rtpf__popout--active,
+.rtpf__popout:hover {
+	display: block;
+}
+
+.rtpf__increment-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.rtpf__increment-button {
+	width: 30px;
+	height: 30px;
+	border: 1px solid #000;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.rtpf__increment-button:hover {
+	background-color: #000;
+	color: #fff;
+}
+
+.rtpf__time-display {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.rtpf__time-display-separator {
+	margin: 0 5px;
+}
+
+.rtpf__decrement-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.rtpf__decrement-button {
+	width: 30px;
+	height: 30px;
+	border: 1px solid #000;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
