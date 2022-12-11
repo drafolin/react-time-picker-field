@@ -6,6 +6,9 @@ const TimePicker = (
 	const [value, setValue] = React.useState("");
 	const [formattedValue, setFormattedValue] = React.useState("");
 	const [popoutVisible, setPopoutVisible] = React.useState(false);
+	const [activeLayout, setActiveLayout] = React.useState("time");
+	const [hours, setHours] = React.useState([...Array(24).keys()]);
+	const [minutes, setMinutes] = React.useState([...Array(60).keys()]);
 
 	const parseInput = (value) => {
 		const [hours, minutes] = value.split(":");
@@ -40,6 +43,29 @@ const TimePicker = (
 		}
 	};
 
+	useEffect(() => {
+		if ((props.hoursInterval || 1) > 24 || (props.hoursInterval || 1) < 1) {
+			throw new Error("Invalid hours interval");
+		}
+
+		if ((props.minutesInterval || 5) > 60 || (props.minutesInterval || 5) < 1) {
+			throw new Error("Invalid minutes interval");
+		}
+
+		let tempHours = [];
+		let tempMinutes = [];
+
+		for (let i = 0; i < 24; i += Math.floor(props.hoursInterval || 1)) {
+			tempHours.push(i);
+		}
+
+		for (let i = 0; i < 60; i += Math.floor(props.minutesInterval || 5)) {
+			tempMinutes.push(i);
+		}
+
+		setHours(tempHours);
+		setMinutes(tempMinutes);
+	}, [props.hoursInterval, props.minutesInterval]);
 
 	useEffect(() => {
 		if (typeof props.value === "undefined") {
@@ -84,103 +110,147 @@ const TimePicker = (
 				onFocus={() => { setPopoutVisible(true); }}
 				onBlur={() => { setPopoutVisible(false); }}
 				value={value} />
-			<div className={`rtpf__popout ${popoutVisible ? "rtpf__popout--active" : ""}`}>
-				<div className="rtpf__increment-row">
-					<button
-						className="rtpf__increment-button rtpf__increment-button--hours"
-						onClick={() => {
-							const [hours, minutes] = formattedValue.split(":");
-							const parsedHours = parseInt(hours) + 1;
-							const parsedMinutes = parseInt(minutes);
-							// check that it's still valid time, otherwise loop back to 00:xx
-							if (parsedHours === 24) {
-								const newDate = new Date(0, 0, 0, 0, parsedMinutes);
+			<div className={`rtpf__popout ${popoutVisible ? "rtpf__popout--active" : ""}`}
+				onMouseLeave={() => { setActiveLayout("time"); }}
+			>
+				<div className={`rtpf__time-layout rtpf__layout ${activeLayout === "time" ? "rtpf__layout--active" : ""}`}>
+					<div className="rtpf__increment-row">
+						<button
+							className="rtpf__increment-button rtpf__increment-button--hours"
+							onClick={() => {
+								const [hours, minutes] = formattedValue.split(":");
+								const parsedHours = parseInt(hours) + 1;
+								const parsedMinutes = parseInt(minutes);
+								// check that it's still valid time, otherwise loop back to 00:xx
+								if (parsedHours === 24) {
+									const newDate = new Date(0, 0, 0, 0, parsedMinutes);
+									saveTime(newDate);
+									return;
+								}
+								const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
 								saveTime(newDate);
-								return;
-							}
-							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
-							saveTime(newDate);
-						}}
-					>
-						+
-					</button>
-					<button
-						className="rtpf__increment-button rtpf__increment-button--minutes"
-						onClick={() => {
-							const [hours, minutes] = formattedValue.split(":");
-							const parsedHours = parseInt(hours);
-							const parsedMinutes = parseInt(minutes) + 1;
-							// check that it's still valid time, otherwise loop back to (xx+1):00
-							if (parsedMinutes === 60) {
-								const newDate = new Date(0, 0, 0, parsedHours + 1, 0);
+							}}
+						>
+							+
+						</button>
+						<button
+							className="rtpf__increment-button rtpf__increment-button--minutes"
+							onClick={() => {
+								const [hours, minutes] = formattedValue.split(":");
+								const parsedHours = parseInt(hours);
+								const parsedMinutes = parseInt(minutes) + 1;
+								// check that it's still valid time, otherwise loop back to (xx+1):00
+								if (parsedMinutes === 60) {
+									const newDate = new Date(0, 0, 0, parsedHours + 1, 0);
+									saveTime(newDate);
+									return;
+								}
+								const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
 								saveTime(newDate);
-								return;
-							}
-							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
-							saveTime(newDate);
-						}}
+							}}
+						>
+							+
+						</button>
+					</div>
+					<div
+						className="rtpf__time-display"
 					>
-						+
-					</button>
+						<button
+							className="rtpf__time-display-hours"
+							onClick={() => { setActiveLayout("hours"); }}
+						>
+							{formattedValue.split(":")[0]}
+						</button>
+						<span
+							className="rtpf__time-display-separator"
+						>
+							:
+						</span>
+						<button
+							className="rtpf__time-display-minutes"
+							onClick={() => { setActiveLayout("minutes"); }}
+						>
+							{formattedValue.split(":")[1]}
+						</button>
+					</div>
+					<div
+						className="rtpf__decrement-row"
+					>
+						<button
+							className="rtpf__decrement-button rtpf__decrement-button--hours"
+							onClick={() => {
+								const [hours, minutes] = formattedValue.split(":");
+								const parsedHours = parseInt(hours) - 1;
+								const parsedMinutes = parseInt(minutes);
+								// check that it's still valid time, otherwise loop back to 23:xx
+								if (parsedHours === -1) {
+									const newDate = new Date(0, 0, 0, 23, parsedMinutes);
+									saveTime(newDate);
+									return;
+								}
+								const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
+								saveTime(newDate);
+							}}
+						>
+							-
+						</button>
+						<button
+							className="rtpf__decrement-button rtpf__decrement-button--minutes"
+							onClick={() => {
+								const [hours, minutes] = formattedValue.split(":");
+								const parsedHours = parseInt(hours);
+								const parsedMinutes = parseInt(minutes) - 1;
+								// check that it's still valid time, otherwise loop back to (xx-1):59
+								if (parsedMinutes === -1) {
+									const newDate = new Date(0, 0, 0, parsedHours - 1, 59);
+									saveTime(newDate);
+									return;
+								}
+								const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
+								saveTime(newDate);
+							}}
+						>
+							-
+						</button>
+					</div>
 				</div>
-				<div
-					className="rtpf__time-display"
-				>
-					<span
-						className="rtpf__time-display-hours"
-					>
-						{formattedValue.split(":")[0]}
-					</span>
-					<span
-						className="rtpf__time-display-separator"
-					>
-						:
-					</span>
-					<span
-						className="rtpf__time-display-minutes"
-					>
-						{formattedValue.split(":")[1]}
-					</span>
+				<div className={`rtpf__hours-layout rtpf__layout ${activeLayout === "hours" ? "rtpf__layout--active" : ""}`}>
+					{
+						hours.map((hour) => (
+							<button
+								className="rtpf__hours-layout-button"
+								onClick={() => {
+									const [_, minutes] = formattedValue.split(":");
+									const parsedMinutes = parseInt(minutes);
+									const newDate = new Date(0, 0, 0, hour, parsedMinutes);
+									saveTime(newDate);
+									setActiveLayout("time");
+								}}
+								key={hour}
+							>
+								{hour}
+							</button>
+						))
+					}
 				</div>
-				<div
-					className="rtpf__decrement-row"
-				>
-					<button
-						className="rtpf__decrement-button rtpf__decrement-button--hours"
-						onClick={() => {
-							const [hours, minutes] = formattedValue.split(":");
-							const parsedHours = parseInt(hours) - 1;
-							const parsedMinutes = parseInt(minutes);
-							// check that it's still valid time, otherwise loop back to 23:xx
-							if (parsedHours === -1) {
-								const newDate = new Date(0, 0, 0, 23, parsedMinutes);
-								saveTime(newDate);
-								return;
-							}
-							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
-							saveTime(newDate);
-						}}
-					>
-						-
-					</button>
-					<button
-						className="rtpf__decrement-button rtpf__decrement-button--minutes"
-						onClick={() => {
-							const [hours, minutes] = formattedValue.split(":");
-							const parsedHours = parseInt(hours);
-							const parsedMinutes = parseInt(minutes) - 1;
-							// check that it's still valid time, otherwise loop back to (xx-1):59
-							if (parsedMinutes === -1) {
-								const newDate = new Date(0, 0, 0, parsedHours - 1, 59);
-								saveTime(newDate);
-								return;
-							}
-							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
-							saveTime(newDate);
-						}}
-					>
-						-
-					</button>
+				<div className={`rtpf__minutes-layout rtpf__layout ${activeLayout === "minutes" ? "rtpf__layout--active" : ""}`}>
+					{
+						minutes.map((minute) => (
+							<button
+								className="rtpf__minutes-layout-button"
+								onClick={() => {
+									const [hours, _] = formattedValue.split(":");
+									const parsedHours = parseInt(hours);
+									const newDate = new Date(0, 0, 0, parsedHours, minute);
+									saveTime(newDate);
+									setActiveLayout("time");
+								}}
+								key={minute}
+							>
+								{minute}
+							</button>
+						))
+					}
 				</div>
 			</div>
 		</div>
