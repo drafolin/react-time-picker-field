@@ -1,7 +1,7 @@
 {
 	"name": "react-time-picker-field",
 	"version": "1.0.1",
-	"main": "dist/index.jsx",
+	"main": "dist/index.js",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/dindin-nibnib/react-time-picker-field.git"
