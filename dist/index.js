@@ -74,7 +74,9 @@ const TimePicker = props => {
 
 	return React.createElement(
 		"div",
-		null,
+		{
+			className: props.className || "rtpf"
+		},
 		React.createElement("input", { className: "rtpf__input",
 			onInput: handleChange,
 			onFocus: () => {

@@ -1,6 +1,6 @@
 {
 	"name": "react-time-picker-field",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"main": "dist/index.js",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,8 @@
 	"type": "module",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "babel src/ -d dist/ --presets react"
+		"build": "babel src/ -d dist/ --presets react",
+		"prepublishOnly": "npm run build"
 	},
 	"author": "dindin-nibnib",
 	"license": "ISC",
