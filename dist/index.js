@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 
-const TimePicker = (
-	props
-) => {
+const TimePicker = props => {
 	const [value, setValue] = React.useState("");
 	const [formattedValue, setFormattedValue] = React.useState("");
 	const [popoutVisible, setPopoutVisible] = React.useState(false);
 
-	const parseInput = (value) => {
+	const parseInput = value => {
 		const [hours, minutes] = value.split(":");
 		if (hours && minutes) {
 			const parsedHours = parseInt(hours);
@@ -19,7 +17,7 @@ const TimePicker = (
 		return null;
 	};
 
-	const handleChange = (e) => {
+	const handleChange = e => {
 		if (!parseInput(e.target.value)) {
 			console.log("Invalid time format");
 			setValue(e.target.value);
@@ -39,7 +37,6 @@ const TimePicker = (
 			throw new Error("Invalid time format");
 		}
 	};
-
 
 	useEffect(() => {
 		if (typeof props.value === "undefined") {
@@ -61,7 +58,7 @@ const TimePicker = (
 		}
 	}, [props.value]);
 
-	const saveTime = (newDate) => {
+	const saveTime = newDate => {
 		setFormattedValue(`00${newDate.getHours()}`.slice(-2) + ":" + `00${newDate.getMinutes()}`.slice(-2));
 		setValue(`00${newDate.getHours()}`.slice(-2) + ":" + `00${newDate.getMinutes()}`.slice(-2));
 		if (typeof props.value === "undefined") {
@@ -75,18 +72,29 @@ const TimePicker = (
 		}
 	};
 
-	return (
-		<div>
-			<input className="rtpf__input"
-				onInput={handleChange}
-				onFocus={() => { setPopoutVisible(true); }}
-				onBlur={() => { setPopoutVisible(false); }}
-				value={value} />
-			<div className={`rtpf__popout ${popoutVisible ? "rtpf__popout--active" : ""}`}>
-				<div className="rtpf__increment-row">
-					<button
-						className="rtpf__increment-button rtpf__increment-button--hours"
-						onClick={() => {
+	return React.createElement(
+		"div",
+		null,
+		React.createElement("input", { className: "rtpf__input",
+			onInput: handleChange,
+			onFocus: () => {
+				setPopoutVisible(true);
+			},
+			onBlur: () => {
+				setPopoutVisible(false);
+			},
+			value: value }),
+		React.createElement(
+			"div",
+			{ className: `rtpf__popout ${popoutVisible ? "rtpf__popout--active" : ""}` },
+			React.createElement(
+				"div",
+				{ className: "rtpf__increment-row" },
+				React.createElement(
+					"button",
+					{
+						className: "rtpf__increment-button rtpf__increment-button--hours",
+						onClick: () => {
 							const [hours, minutes] = formattedValue.split(":");
 							const parsedHours = parseInt(hours) + 1;
 							const parsedMinutes = parseInt(minutes);
@@ -98,13 +106,15 @@ const TimePicker = (
 							}
 							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
 							saveTime(newDate);
-						}}
-					>
-						+
-					</button>
-					<button
-						className="rtpf__increment-button rtpf__increment-button--minutes"
-						onClick={() => {
+						}
+					},
+					"+"
+				),
+				React.createElement(
+					"button",
+					{
+						className: "rtpf__increment-button rtpf__increment-button--minutes",
+						onClick: () => {
 							const [hours, minutes] = formattedValue.split(":");
 							const parsedHours = parseInt(hours);
 							const parsedMinutes = parseInt(minutes) + 1;
@@ -116,36 +126,48 @@ const TimePicker = (
 							}
 							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
 							saveTime(newDate);
-						}}
-					>
-						+
-					</button>
-				</div>
-				<div
-					className="rtpf__time-display"
-				>
-					<span
-						className="rtpf__time-display-hours"
-					>
-						{formattedValue.split(":")[0]}
-					</span>
-					<span
-						className="rtpf__time-display-separator"
-					>
-						:
-					</span>
-					<span
-						className="rtpf__time-display-minutes"
-					>
-						{formattedValue.split(":")[1]}
-					</span>
-				</div>
-				<div
-					className="rtpf__decrement-row"
-				>
-					<button
-						className="rtpf__decrement-button rtpf__decrement-button--hours"
-						onClick={() => {
+						}
+					},
+					"+"
+				)
+			),
+			React.createElement(
+				"div",
+				{
+					className: "rtpf__time-display"
+				},
+				React.createElement(
+					"span",
+					{
+						className: "rtpf__time-display-hours"
+					},
+					formattedValue.split(":")[0]
+				),
+				React.createElement(
+					"span",
+					{
+						className: "rtpf__time-display-separator"
+					},
+					":"
+				),
+				React.createElement(
+					"span",
+					{
+						className: "rtpf__time-display-minutes"
+					},
+					formattedValue.split(":")[1]
+				)
+			),
+			React.createElement(
+				"div",
+				{
+					className: "rtpf__decrement-row"
+				},
+				React.createElement(
+					"button",
+					{
+						className: "rtpf__decrement-button rtpf__decrement-button--hours",
+						onClick: () => {
 							const [hours, minutes] = formattedValue.split(":");
 							const parsedHours = parseInt(hours) - 1;
 							const parsedMinutes = parseInt(minutes);
@@ -157,13 +179,15 @@ const TimePicker = (
 							}
 							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
 							saveTime(newDate);
-						}}
-					>
-						-
-					</button>
-					<button
-						className="rtpf__decrement-button rtpf__decrement-button--minutes"
-						onClick={() => {
+						}
+					},
+					"-"
+				),
+				React.createElement(
+					"button",
+					{
+						className: "rtpf__decrement-button rtpf__decrement-button--minutes",
+						onClick: () => {
 							const [hours, minutes] = formattedValue.split(":");
 							const parsedHours = parseInt(hours);
 							const parsedMinutes = parseInt(minutes) - 1;
@@ -175,13 +199,12 @@ const TimePicker = (
 							}
 							const newDate = new Date(0, 0, 0, parsedHours, parsedMinutes);
 							saveTime(newDate);
-						}}
-					>
-						-
-					</button>
-				</div>
-			</div>
-		</div>
+						}
+					},
+					"-"
+				)
+			)
+		)
 	);
 };
 export default TimePicker;

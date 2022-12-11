@@ -1,7 +1,7 @@
 {
 	"name": "react-time-picker-field",
 	"version": "1.0.0",
-	"main": "src/index.jsx",
+	"main": "dist/index.jsx",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/dindin-nibnib/react-time-picker-field.git"
@@ -19,10 +19,14 @@
 		"templates"
 	],
 	"type": "module",
-	"types": "src/index.d.ts",
+	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "npx parcel build src/index.tsx --no-source-maps --experimental-scope-hoisting"
+		"build": "babel src/ -d dist/ --presets react"
 	},
 	"author": "dindin-nibnib",
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-preset-react": "^6.24.1"
+	}
 }

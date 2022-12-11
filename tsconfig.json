@@ -1,29 +1,31 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "target": "es5",
-    "module": "commonjs",
-    "strict": true,
-    "jsx": "react",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
-    "removeComments": true,
-    "baseUrl": ".",
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
-  },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"target": "es5",
+		"module": "commonjs",
+		"strict": true,
+		"jsx": "react",
+		"importHelpers": true,
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": false,
+		"removeComments": true,
+		"baseUrl": ".",
+		"lib": [
+			"esnext",
+			"dom",
+			"dom.iterable",
+			"scripthost"
+		]
+	},
+	"include": [
+		"./src/**/*",
+		"dist/index.d.ts",
+		"dist/index.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
 }
