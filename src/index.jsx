@@ -76,7 +76,9 @@ const TimePicker = (
 	};
 
 	return (
-		<div>
+		<div
+			className={props.className || "rtpf"}
+		>
 			<input className="rtpf__input"
 				onInput={handleChange}
 				onFocus={() => { setPopoutVisible(true); }}
