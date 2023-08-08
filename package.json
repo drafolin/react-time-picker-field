@@ -1,10 +1,10 @@
 {
 	"name": "react-time-picker-field",
-	"version": "1.2.0",
+	"version": "1.2.2",
 	"main": "dist/index.js",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/dindin-nibnib/react-time-picker-field.git"
+		"url": "git+https://github.com/drafolin/react-time-picker-field.git"
 	},
 	"description": "A user-pleasing, yet unstlyed react time picker based on vue datepicker",
 	"dependencies": {
@@ -21,13 +21,15 @@
 	"type": "module",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "babel src/ -d dist/ --presets react && sass src/index.scss dist/index.css",
+		"build": "babel src/ -d dist/ --plugins=@babel/plugin-transform-react-jsx && sass src/index.scss dist/index.css",
 		"prepublishOnly": "npm run build"
 	},
 	"author": "dindin-nibnib",
 	"license": "ISC",
 	"devDependencies": {
-		"babel-cli": "^6.26.0",
+		"@babel/cli": "^7.22.10",
+		"@babel/core": "^7.22.10",
+		"@babel/plugin-transform-react-jsx": "^7.22.5",
 		"babel-preset-react": "^6.24.1",
 		"sass": "^1.56.2"
 	}
